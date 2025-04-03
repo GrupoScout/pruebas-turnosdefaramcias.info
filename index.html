@@ -1,13 +1,27 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio - turnosdefarmacias.info</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #007BFF;
+      font-family: Arial, sans-serif;
+      display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      height: 100vh;
+    }
+    .content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     h1 {
       color: white;
-      text-align: center;
-      width: 100%;
+      margin-bottom: 40px;
     }
     .button-grid {
       display: flex;
@@ -27,12 +41,8 @@
       transition: all 0.3s ease;
       text-align: center;
       text-decoration: none;
-      color: black;
     }
-    .btn:hover {
-      opacity: 0.9;
-    }
-    .celeste { background-color: #00cfff; }
+    .celeste { background-color: #00cfff; color: black; }
     .azul { background-color: #007BFF; color: white; }
     .verde { background-color: #4CAF50; }
     .rojo { background-color: #f44336; }
@@ -47,84 +57,76 @@
       border: none;
       border-radius: 8px;
     }
-    .sidebar {
+    .franja {
       width: 250px;
-      background: white;
-      padding: 20px;
-      border-left: 2px solid black;
+      background-color: #00cfff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      height: 100vh;
       justify-content: center;
+      padding: 20px;
     }
-    .sidebar input {
-      font-size: 20px;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 15px;
-      width: 80%;
-    }
-    /* Estilos para el ticket */
-    .ticket {
-      display: none;
-      font-family: 'Courier New', Courier, monospace;
-      width: 250px;
-      padding: 10px;
-      border: 1px solid black;
-    }
-    .ticket p {
-      margin: 5px 0;
+    .franja h2 {
+      color: black;
       text-align: center;
     }
-    .ticket .titulo {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .ticket .monto {
+    .input-numero {
+      width: 100%;
+      padding: 10px;
       font-size: 16px;
-      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
     }
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      .ticket, .ticket * {
-        visibility: visible;
-      }
-      .ticket {
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
+    .btn-imprimir {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: black;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
     }
   </style>
   <script>
-    function mostrarTicket() {
-      let monto = document.getElementById("precio").value;
-      if (monto) {
-        document.getElementById("ticket").innerHTML = `
-          <div class="ticket">
-            <p class="titulo">FARMACIA PINTAR</p>
-            <p>San Miguel - AV REMIGIO LOPEZ 2393</p>
-            <p>Tel: 44555502 - WhatsApp: 1153183466</p>
-            <hr>
-            <p><strong>Comprobante No Fiscal</strong></p>
-            <p class="monto">Monto: $${monto}</p>
-            <hr>
-            <p>¡Gracias por su compra!</p>
-            <p>TURNOS: www.turnosdefarmacias.info</p>
+    function abrirUnicaVentana(nombre, url) {
+      window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
+    }
+    function validarNumero(input) {
+      const valor = input.value.replace(/[^0-9,]/g, '');
+      input.value = valor;
+      document.getElementById('btnImprimir').style.display = valor && parseFloat(valor.replace(',', '.')) >= 15 ? 'block' : 'none';
+    }
+    function imprimirTicket() {
+      const fecha = new Date().toLocaleDateString();
+      const hora = new Date().toLocaleTimeString();
+      const monto = document.getElementById('numero').value;
+      const ticketContent = `
+        <div style="width:80mm; border: 2px solid black; padding: 12px; font-family: Arial; font-size: 13px;">
+          <div style="border: 2px solid black; padding: 6px; text-align: center; margin-bottom: 10px;">
+            <b>FARMACIA PINTAR</b><br>
+            SAN MIGUEL<br>AV REMIGIO LOPEZ 2393<br>
+            TEL: 44555502 - WHATSAPP: 1153183466<br>
+            <b>COMPROBANTE NO FISCAL</b><br>
+            FECHA: ${fecha} - HORA: ${hora}<br>
+            <b>TURNOS: www.turnosdefarmacias.info</b>
+          </div>  
+          <div style="border: 2px solid black; padding: 6px; margin-bottom: 10px;">
+            <b style="font-size: 1cm;">PAGO CON QR APROBADO</b><br>
+            <b style="font-size: 1cm;">TOTAL: ${monto}</b>
+            <hr style="border-top: 1px dashed black;">
+            <b>¡GRACIAS POR SU COMPRA!</b>
           </div>
-        `;
-        window.print();
-      }
+        </div>`;
+      const printWindow = window.open('', '', 'width=300,height=400');
+      printWindow.document.write(ticketContent);
+      printWindow.document.close();
+      printWindow.print();
     }
   </script>
 </head>
 <body>
-  <div>
+  <div class="content">
     <h1>FARMACIA PINTAR</h1>
     <div class="button-grid">
       <button class="btn celeste" onclick="abrirUnicaVentana('mercadopago', 'https://www.mercadopago.com.ar/collections')">MERCADO PAGO</button>
@@ -139,14 +141,12 @@
       <button class="btn pride" onclick="abrirUnicaVentana('promociones', 'https://promociones.turnosdefarmacias.info/')">PROMOCIONES</button>
     </div>
   </div>
-  <div class="sidebar">
-    <input type="number" id="precio" placeholder="Ingrese el monto">
-    <button class="btn azul" onclick="mostrarTicket()">IMPRIMIR</button>
+  <div class="franja">
+    <h2>REALIZAR TICKET PARA COBROS CON QR</h2>
+    <input id="numero" class="input-numero" type="text" oninput="validarNumero(this)" placeholder="Ingrese monto (min. 15)" />
+    <button id="btnImprimir" class="btn-imprimir" onclick="imprimirTicket()">IMPRIMIR TICKET</button>
   </div>
-
-  <!-- Ticket oculto hasta la impresión -->
-  <div id="ticket"></div>
-
 </body>
 </html>
+
 

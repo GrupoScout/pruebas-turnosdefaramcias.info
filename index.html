@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PRUEBAS - turnosdefarmacias.info</title>
+    <title>Inicio - turnosdefarmacias.info</title>
     <style>
         body {
             margin: 0;
@@ -16,6 +16,14 @@
             align-items: stretch;
             justify-content: center;
             min-height: 100vh;
+        }
+
+        .barra-superior {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 1em;
         }
 
         .content {
@@ -134,6 +142,40 @@
         }
     </style>
     <script>
+        function actualizarHoraYFarmacia() {
+            const ahora = new Date();
+            const horas = ahora.getHours().toString().padStart(2, '0');
+            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            const segundos = ahora.getSeconds().toString().padStart(2, '0');
+            document.getElementById('hora-actual').textContent = `${horas}:${minutos}:${segundos}`;
+
+            const dia = ahora.getDate();
+            const mes = ahora.getMonth() + 1;
+            const farmaciaHoy = obtenerFarmacia(dia, mes);
+            document.getElementById('farmacia-turno-nombre').textContent = `FARMACIA DE TURNO: ${farmaciaHoy}`;
+        }
+
+        function obtenerFarmacia(dia, mes) {
+            const farmaciasSemana = ['MITRE', 'SARMIENTO', 'VAZQUEZ', 'PINTAR', 'CALPE'];
+            const farmaciasSabado = ['MITRE', 'CALPE', 'SARMIENTO', 'VAZQUEZ', 'PINTAR'];
+            const farmaciasDomingo = ['VAZQUEZ', 'PINTAR', 'MITRE', 'CALPE', 'SARMIENTO'];
+
+            let fecha = new Date(new Date().getFullYear(), mes - 1, dia);
+            let diaSemana = fecha.getDay();
+            let semanasTranscurridas = Math.floor((fecha - new Date(new Date().getFullYear(), 0, 1)) / (1000 * 60 * 60 * 24 * 7));
+
+            if (diaSemana >= 1 && diaSemana <= 5) {
+                return farmaciasSemana[diaSemana - 1];
+            } else if (diaSemana === 6) {
+                return farmaciasSabado[semanasTranscurridas % farmaciasSabado.length];
+            } else if (diaSemana === 0) {
+                return farmaciasDomingo[semanasTranscurridas % farmaciasDomingo.length];
+            }
+            return 'Desconocido';
+        }
+
+        setInterval(actualizarHoraYFarmacia, 1000);
+
         function abrirUnicaVentana(nombre, url) {
             window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
         }
@@ -170,10 +212,15 @@
             printWindow.document.close();
             printWindow.print();
         }
+
+        document.addEventListener('DOMContentLoaded', actualizarHoraYFarmacia);
     </script>
 </head>
 
 <body>
+    <div class="barra-superior">
+        <span id="hora-actual"></span> - <span id="farmacia-turno-nombre"></span>
+    </div>
     <div class="content">
         <h1>FARMACIA PINTAR</h1>
         <div class="button-grid">
@@ -213,5 +260,4 @@
 </body>
 
 </html>
-
 

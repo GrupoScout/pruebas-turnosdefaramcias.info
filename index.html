@@ -3,175 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ventana Emergente</title>
+  <title>PRUEBA - Inicio - turnosdefarmacias.info</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
+      padding: 20px;
+      background-color: #007BFF;
       font-family: Arial, sans-serif;
-    }
-    #overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      z-index: 1000;
     }
-    #mensaje {
-      background: white;
-      padding: 30px;
+    h1 {
+      color: white;
+      margin-bottom: 40px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1000px;
+    }
+    .btn {
+      padding: 20px 40px;
+      font-size: 1.1em;
+      font-weight: bold;
       border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid white;
+      min-width: 220px;
+      transition: all 0.3s ease;
       text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      animation: parpadeo 1s infinite alternate;
+      text-decoration: none;
     }
-    @keyframes parpadeo {
-      from { opacity: 1; }
-      to { opacity: 0.7; }
-    }
-    #barraTiempo {
-      width: 100%;
-      height: 20px;
-      background-color: #ccc;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 15px;
-    }
-    #progreso {
-      height: 100%;
-      width: 100%;
-      background-color: red;
-      transition: width 1s linear;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
+    .azul { background-color: #007BFF; color: white; }
+    .celeste { background-color: #00cfff; color: black; }
+    .verde { background-color: #4CAF50; color: black; }
+    .rojo { background-color: #f44336; color: black; }
+    .verdeagua { background-color: #7FFFD4; color: black; }
+    .rosado { background-color: #FFB6C1; color: black; }
+    .azuloscuro { background-color: #102c54; color: white; }
+    .chrome { background-color: #DB4437; color: white; }
+    .pride {
+      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      color: black;
+      font-weight: bold;
       border: none;
+      border-radius: 8px;
     }
-    /* Panel derecho para generar ticket */
-    #panel-derecho {
+    .btn:hover {
+      opacity: 0.9;
+    }
+    #ticket-panel {
       position: fixed;
       right: 0;
-      top: 0;
-      width: 250px;
-      height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
       background: white;
-      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
       padding: 20px;
-      overflow-y: auto;
-    }
-    h2 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background: blue;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-      margin-top: 10px;
-      width: 100%;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px 0 0 10px;
     }
   </style>
   <script>
-    let tiempoInactividad;
-    let cuentaRegresiva;
-    let segundosRestantes = 60;
-
-    function iniciarTemporizadorInactividad() {
-      clearTimeout(tiempoInactividad);
-      tiempoInactividad = setTimeout(mostrarOverlay, 1800000); // 30 minutos
+    function abrirUnicaVentana(nombre, url) {
+      window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
     }
-
-    function mostrarOverlay() {
-      document.getElementById('overlay').style.display = 'flex';
-      segundosRestantes = 60;
-      actualizarBarra();
-      cuentaRegresiva = setInterval(() => {
-        segundosRestantes--;
-        actualizarBarra();
-        if (segundosRestantes <= 0) {
-          clearInterval(cuentaRegresiva);
-          window.close();
-        }
-      }, 1000);
-    }
-
-    function cancelarCierre() {
-      clearInterval(cuentaRegresiva);
-      document.getElementById('overlay').style.display = 'none';
-      iniciarTemporizadorInactividad();
-    }
-
-    function actualizarBarra() {
-      const progreso = document.getElementById('progreso');
-      progreso.style.width = (segundosRestantes * 100 / 60) + '%';
-    }
-
-    document.addEventListener('mousemove', iniciarTemporizadorInactividad);
-    document.addEventListener('keydown', iniciarTemporizadorInactividad);
-    document.addEventListener('click', iniciarTemporizadorInactividad);
-    window.onload = iniciarTemporizadorInactividad;
-
     function imprimirTicket() {
-      const precio = document.getElementById("precio").value;
-      if (!precio) {
-        alert("Por favor, ingresa un precio antes de imprimir.");
-        return;
+      let precio = document.getElementById('precio').value;
+      if (precio) {
+        let ticket = `Ticket\nPrecio: $${precio}`;
+        let ventana = window.open('', '_blank');
+        ventana.document.write(`<pre>${ticket}</pre>`);
+        ventana.print();
+      } else {
+        alert('Ingrese un precio válido.');
       }
-      
-      const ventana = window.open('', '', 'width=300,height=400');
-      ventana.document.write(`<h2>Ticket</h2>`);
-      ventana.document.write(`<p>Precio: $${precio}</p>`);
-      ventana.document.write(`<p>Gracias por su compra</p>`);
-      ventana.document.write(`<script>window.print(); window.close();<\/script>`);
-      ventana.document.close();
     }
   </script>
 </head>
 <body>
-  <div id="overlay">
-    <div id="mensaje">
-      <h2>¿SEGUÍS AHÍ?</h2>
-      <p>La pestaña se cerrará sola en 1 minuto.</p>
-      <div id="barraTiempo"><div id="progreso"></div></div>
-      <br>
-      <button onclick="cancelarCierre()">SÍ, SIGO AQUÍ</button>
-    </div>
+  <h1>PRUEBA - FARMACIA PINTAR</h1>
+  <div class="button-grid">
+    <button class="btn celeste" onclick="abrirUnicaVentana('mercadopago', 'https://www.mercadopago.com.ar/collections')">MERCADO PAGO</button>
+    <button class="btn azul" onclick="abrirUnicaVentana('genericos', 'https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec')">GENÉRICOS</button>
+    <button class="btn azul" onclick="abrirUnicaVentana('panales', 'https://panales.turnosdefarmacias.info/')">PAÑALERA</button>
+    <button class="btn verde" onclick="abrirUnicaVentana('colegio', 'https://www.colfarmaonline.org.ar')">COLEGIO</button>
+    <button class="btn rojo" onclick="abrirUnicaVentana('plataforma', 'http://ctacte.cofasa.com.ar')">PLATAFORMA</button>
+    <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_recetas', 'https://www.misvalidaciones.com.ar/')">IOSFA RECETAS</button>
+    <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_afiliado', 'https://validador.iosfa.gob.ar/ValidadorSUA1')">IOSFA CONSULTA DE AFILIADO</button>
+    <button class="btn rosado" onclick="abrirUnicaVentana('meppes', 'http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php')">MEPPES</button>
+    <button class="btn azul" onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
+    <button class="btn azuloscuro" onclick="abrirUnicaVentana('farmasun', 'https://app.drogueriafarmasun.com.ar/login')">FARMASUN</button>
+    <button class="btn chrome" onclick="abrirUnicaVentana('gmail', 'https://mail.google.com/mail/u/1/')">LEKARNA MAIL</button>
+    <button class="btn pride" onclick="abrirUnicaVentana('osde', 'https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp')">OSDE VICENTE</button>
   </div>
-  <iframe src=""></iframe>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const destino = urlParams.get('url');
-    if (destino) document.querySelector('iframe').src = destino;
-  </script>
-
-  <!-- Panel derecho para generar tickets -->
-  <div id="panel-derecho">
+  <div id="ticket-panel">
     <h2>Generar Ticket</h2>
     <label for="precio">Precio:</label>
     <input type="number" id="precio" placeholder="Ingrese el precio">
     <button onclick="imprimirTicket()">Imprimir Ticket</button>
   </div>
-
 </body>
 </html>
-
 

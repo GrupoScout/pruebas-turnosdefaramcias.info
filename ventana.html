@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventana Emergente</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #mensaje {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      animation: parpadeo 1s infinite alternate;
+    }
+    @keyframes parpadeo {
+      from { opacity: 1; }
+      to { opacity: 0.7; }
+    }
+    #barraTiempo {
+      width: 100%;
+      height: 20px;
+      background-color: #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+    #progreso {
+      height: 100%;
+      width: 100%;
+      background-color: red;
+      transition: width 1s linear;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+  <script>
+    let tiempoInactividad;
+    let cuentaRegresiva;
+    let segundosRestantes = 60;
+
+    function iniciarTemporizadorInactividad() {
+      clearTimeout(tiempoInactividad);
+      tiempoInactividad = setTimeout(mostrarOverlay, 1800000); // 30 minutos
+    }
+
+    function mostrarOverlay() {
+      document.getElementById('overlay').style.display = 'flex';
+      segundosRestantes = 60;
+      actualizarBarra();
+      cuentaRegresiva = setInterval(() => {
+        segundosRestantes--;
+        actualizarBarra();
+        if (segundosRestantes <= 0) {
+          clearInterval(cuentaRegresiva);
+          window.close();
+        }
+      }, 1000);
+    }
+
+    function cancelarCierre() {
+      clearInterval(cuentaRegresiva);
+      document.getElementById('overlay').style.display = 'none';
+      iniciarTemporizadorInactividad();
+    }
+
+    function actualizarBarra() {
+      const progreso = document.getElementById('progreso');
+      progreso.style.width = (segundosRestantes * 100 / 60) + '%';
+    }
+
+    document.addEventListener('mousemove', iniciarTemporizadorInactividad);
+    document.addEventListener('keydown', iniciarTemporizadorInactividad);
+    document.addEventListener('click', iniciarTemporizadorInactividad);
+    window.onload = iniciarTemporizadorInactividad;
+  </script>
+</head>
+<body>
+  <div id="overlay">
+    <div id="mensaje">
+      <h2>¿SEGUÍS AHÍ?</h2>
+      <p>La pestaña se cerrará sola en 1 minuto.</p>
+      <div id="barraTiempo"><div id="progreso"></div></div>
+      <br>
+      <button onclick="cancelarCierre()">SÍ, SIGO AQUÍ</button>
+    </div>
+  </div>
+  <iframe src=""></iframe>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const destino = urlParams.get('url');
+    if (destino) document.querySelector('iframe').src = destino;
+  </script>
+</body>
+</html>

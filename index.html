@@ -1,49 +1,207 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generar Ticket</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .ticket {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #000;
-            margin-top: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio - turnosdefarmacias.info</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #007BFF;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: white;
+      margin-bottom: 40px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1000px;
+    }
+    .btn {
+      padding: 20px 40px;
+      font-size: 1.1em;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid white;
+      min-width: 220px;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .azul { background-color: #007BFF; color: white; }
+    .celeste { background-color: #00cfff; color: black; }
+    .verde { background-color: #4CAF50; color: black; }
+    .rojo { background-color: #f44336; color: black; }
+    .verdeagua { background-color: #7FFFD4; color: black; }
+    .rosado { background-color: #FFB6C1; color: black; }
+    .azuloscuro { background-color: #102c54; color: white; }
+    .chrome { background-color: #DB4437; color: white; }
+    .pride {
+      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+  <script>
+    let mercadoPagoWindow = null;
+    let ticketWindow = null;
+
+    function abrirMercadoPago() {
+      if (mercadoPagoWindow === null || mercadoPagoWindow.closed) {
+        mercadoPagoWindow = window.open('https://www.mercadopago.com.ar/collections', 'mercadopago', 'width=1000,height=700,resizable=yes,scrollbars=yes');
+        setTimeout(() => {
+          if (mercadoPagoWindow && !mercadoPagoWindow.closed) {
+            ticketWindow = window.open('https://tu-url-del-ticket.com', 'ticket', 'width=400,height=700,resizable=yes,scrollbars=yes,left=' + (screen.width - 420));
+          }
+        }, 500);
+
+        let checkClosed = setInterval(() => {
+          if (mercadoPagoWindow.closed) {
+            if (ticketWindow) ticketWindow.close();
+            clearInterval(checkClosed);
+          }
+          if (ticketWindow && ticketWindow.closed) {
+            if (mercadoPagoWindow) mercadoPagoWindow.close();
+            clearInterval(checkClosed);
+          }
+        }, 500);
+      }
+    }
+  </script>
 </head>
 <body>
-    <h2>Sistema de Tickets</h2>
-    <button onclick="generarTicket()">Generar Ticket</button>
-    <div id="ticket" class="ticket hidden">
-        <h3>Ticket</h3>
-        <p id="contenidoTicket"></p>
-        <button onclick="imprimirTicket()">Imprimir</button>
-    </div>
-    <script>
-        function generarTicket() {
-            let contenido = "Producto: Ejemplo\nPrecio: $100\nFecha: " + new Date().toLocaleString();
-            document.getElementById("contenidoTicket").innerText = contenido;
-            document.getElementById("ticket").classList.remove("hidden");
-        }
-
-        function imprimirTicket() {
-            let contenido = document.getElementById("ticket").innerHTML;
-            let ventanaImpresion = window.open('', '', 'width=300,height=400');
-            ventanaImpresion.document.write('<html><head><title>Imprimir Ticket</title></head><body>');
-            ventanaImpresion.document.write(contenido);
-            ventanaImpresion.document.write('</body></html>');
-            ventanaImpresion.document.close();
-            ventanaImpresion.print();
-        }
-    </script>
+  <h1>FARMACIA PINTAR</h1>
+  <div class="button-grid">
+    <button class="btn celeste" onclick="abrirMercadoPago()">MERCADO PAGO</button>
+    <button class="btn azul" onclick="window.open('https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec', 'genericos', 'width=1000,height=700,resizable=yes,scrollbars=yes');">GENÉRICOS</button>
+    <button class="btn azul" onclick="window.open('https://panales.turnosdefarmacias.info/', 'panales', 'width=1000,height=700,resizable=yes,scrollbars=yes');">PAÑALERA</button>
+    <button class="btn verde" onclick="window.open('https://www.colfarmaonline.org.ar', 'colegio', 'width=1000,height=700,resizable=yes,scrollbars=yes');">COLEGIO</button>
+    <button class="btn rojo" onclick="window.open('http://ctacte.cofasa.com.ar', 'plataforma', 'width=1000,height=700,resizable=yes,scrollbars=yes');">PLATAFORMA</button>
+    <button class="btn verdeagua" onclick="window.open('https://www.misvalidaciones.com.ar/', 'iosfa_recetas', 'width=1000,height=700,resizable=yes,scrollbars=yes');">IOSFA RECETAS</button>
+    <button class="btn verdeagua" onclick="window.open('https://validador.iosfa.gob.ar/ValidadorSUA1', 'iosfa_afiliado', 'width=1000,height=700,resizable=yes,scrollbars=yes');">IOSFA CONSULTA DE AFILIADO</button>
+    <button class="btn rosado" onclick="window.open('http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php', 'meppes', 'width=1000,height=700,resizable=yes,scrollbars=yes');">MEPPES</button>
+    <button class="btn azul" onclick="window.open('https://www.turnosdefarmacias.info/', 'turnos', 'width=1000,height=700,resizable=yes,scrollbars=yes');">TURNOS</button>
+    <button class="btn azuloscuro" onclick="window.open('https://app.drogueriafarmasun.com.ar/login', 'farmasun', 'width=1000,height=700,resizable=yes,scrollbars=yes');">FARMASUN</button>
+    <button class="btn chrome" onclick="window.open('https://mail.google.com/mail/u/1/', 'gmail', 'width=1000,height=700,resizable=yes,scrollbars=yes');">LEKARNA MAIL</button>
+    <button class="btn pride" onclick="window.open('https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp', 'osde', 'width=1000,height=700,resizable=yes,scrollbars=yes');">OSDE VICENTE</button>
+  </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio - turnosdefarmacias.info</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #007BFF;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: white;
+      margin-bottom: 40px;
+    }
+    .button-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1000px;
+    }
+    .btn {
+      padding: 20px 40px;
+      font-size: 1.1em;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid white;
+      min-width: 220px;
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+    }
+    .azul { background-color: #007BFF; color: white; }
+    .celeste { background-color: #00cfff; color: black; }
+    .verde { background-color: #4CAF50; color: black; }
+    .rojo { background-color: #f44336; color: black; }
+    .verdeagua { background-color: #7FFFD4; color: black; }
+    .rosado { background-color: #FFB6C1; color: black; }
+    .azuloscuro { background-color: #102c54; color: white; }
+    .chrome { background-color: #DB4437; color: white; }
+    .pride {
+      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+  <script>
+    let mercadoPagoWindow = null;
+    let ticketWindow = null;
+
+    function abrirMercadoPago() {
+      if (mercadoPagoWindow === null || mercadoPagoWindow.closed) {
+        mercadoPagoWindow = window.open('https://www.mercadopago.com.ar/collections', 'mercadopago', 'width=1000,height=700,resizable=yes,scrollbars=yes');
+        setTimeout(() => {
+          if (mercadoPagoWindow && !mercadoPagoWindow.closed) {
+            ticketWindow = window.open('https://tu-url-del-ticket.com', 'ticket', 'width=400,height=700,resizable=yes,scrollbars=yes,left=' + (screen.width - 420));
+          }
+        }, 500);
+
+        let checkClosed = setInterval(() => {
+          if (mercadoPagoWindow.closed) {
+            if (ticketWindow) ticketWindow.close();
+            clearInterval(checkClosed);
+          }
+          if (ticketWindow && ticketWindow.closed) {
+            if (mercadoPagoWindow) mercadoPagoWindow.close();
+            clearInterval(checkClosed);
+          }
+        }, 500);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>FARMACIA PINTAR</h1>
+  <div class="button-grid">
+    <button class="btn celeste" onclick="abrirMercadoPago()">MERCADO PAGO</button>
+    <button class="btn azul" onclick="window.open('https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec', 'genericos', 'width=1000,height=700,resizable=yes,scrollbars=yes');">GENÉRICOS</button>
+    <button class="btn azul" onclick="window.open('https://panales.turnosdefarmacias.info/', 'panales', 'width=1000,height=700,resizable=yes,scrollbars=yes');">PAÑALERA</button>
+    <button class="btn verde" onclick="window.open('https://www.colfarmaonline.org.ar', 'colegio', 'width=1000,height=700,resizable=yes,scrollbars=yes');">COLEGIO</button>
+    <button class="btn rojo" onclick="window.open('http://ctacte.cofasa.com.ar', 'plataforma', 'width=1000,height=700,resizable=yes,scrollbars=yes');">PLATAFORMA</button>
+    <button class="btn verdeagua" onclick="window.open('https://www.misvalidaciones.com.ar/', 'iosfa_recetas', 'width=1000,height=700,resizable=yes,scrollbars=yes');">IOSFA RECETAS</button>
+    <button class="btn verdeagua" onclick="window.open('https://validador.iosfa.gob.ar/ValidadorSUA1', 'iosfa_afiliado', 'width=1000,height=700,resizable=yes,scrollbars=yes');">IOSFA CONSULTA DE AFILIADO</button>
+    <button class="btn rosado" onclick="window.open('http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php', 'meppes', 'width=1000,height=700,resizable=yes,scrollbars=yes');">MEPPES</button>
+    <button class="btn azul" onclick="window.open('https://www.turnosdefarmacias.info/', 'turnos', 'width=1000,height=700,resizable=yes,scrollbars=yes');">TURNOS</button>
+    <button class="btn azuloscuro" onclick="window.open('https://app.drogueriafarmasun.com.ar/login', 'farmasun', 'width=1000,height=700,resizable=yes,scrollbars=yes');">FARMASUN</button>
+    <button class="btn chrome" onclick="window.open('https://mail.google.com/mail/u/1/', 'gmail', 'width=1000,height=700,resizable=yes,scrollbars=yes');">LEKARNA MAIL</button>
+    <button class="btn pride" onclick="window.open('https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp', 'osde', 'width=1000,height=700,resizable=yes,scrollbars=yes');">OSDE VICENTE</button>
+  </div>
+</body>
+</html>
+

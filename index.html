@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRUEBA - turnosdefarmacias.info</title>
+  <title>Pruebas - turnosdefarmacias.info</title>
   <style>
     body {
       margin: 0;
@@ -68,45 +68,69 @@
       flex-direction: column;
       align-items: center;
       height: 100vh;
+      justify-content: center;
     }
     .sidebar input {
       font-size: 20px;
       padding: 10px;
       text-align: center;
-      margin-bottom: 10px;
-      width: 100%;
+      margin-bottom: 15px;
+      width: 80%;
+    }
+    /* Estilos para el ticket */
+    .ticket {
+      display: none;
+      font-family: 'Courier New', Courier, monospace;
+      width: 250px;
+      padding: 10px;
+      border: 1px solid black;
+    }
+    .ticket p {
+      margin: 5px 0;
+      text-align: center;
+    }
+    .ticket .titulo {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .ticket .monto {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .ticket, .ticket * {
+        visibility: visible;
+      }
+      .ticket {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
     }
   </style>
   <script>
-    function abrirUnicaVentana(nombre, url) {
-      window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
-    }
-
     function mostrarTicket() {
       let monto = document.getElementById("precio").value;
       if (monto) {
-        let contenidoTicket = `
-          <html>
-          <head><title>Ticket</title></head>
-          <body onload="window.print(); setTimeout(() => window.close(), 1000);">
-            <div style="text-align: center; font-family: Arial, sans-serif;">
-              <h2>FARMACIA PINTAR</h2>
-              <p>San Miguel - AV REMIGIO LOPEZ 2393</p>
-              <p>Tel: 44555502 - WhatsApp: 1153183466</p>
-              <p><strong>Comprobante No Fiscal</strong></p>
-              <p><strong>Monto: $${monto}</strong></p>
-              <p>¡Gracias por su compra!</p>
-            </div>
-          </body>
-          </html>
+        document.getElementById("ticket").innerHTML = `
+          <div class="ticket">
+            <p class="titulo">FARMACIA PINTAR</p>
+            <p>San Miguel - AV REMIGIO LOPEZ 2393</p>
+            <p>Tel: 44555502 - WhatsApp: 1153183466</p>
+            <hr>
+            <p><strong>Comprobante No Fiscal</strong></p>
+            <p class="monto">Monto: $${monto}</p>
+            <hr>
+            <p>¡Gracias por su compra!</p>
+            <p>TURNOS: www.turnosdefarmacias.info</p>
+          </div>
         `;
-
-        let nuevaVentana = window.open('', '_blank', 'width=400,height=600');
-        nuevaVentana.document.open();
-        nuevaVentana.document.write(contenidoTicket);
-        nuevaVentana.document.close();
-      } else {
-        alert("Por favor, ingrese un monto antes de imprimir.");
+        window.print();
       }
     }
   </script>
@@ -120,18 +144,21 @@
       <button class="btn azul" onclick="abrirUnicaVentana('panales', 'https://panales.turnosdefarmacias.info/')">PAÑALERA</button>
       <button class="btn verde" onclick="abrirUnicaVentana('colegio', 'https://www.colfarmaonline.org.ar')">COLEGIO</button>
       <button class="btn rojo" onclick="abrirUnicaVentana('plataforma', 'http://ctacte.cofasa.com.ar')">PLATAFORMA</button>
-      <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_recetas', 'https://www.misvalidaciones.com.ar/')">IOSFA RECETAS</button>
-      <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_afiliado', 'https://validador.iosfa.gob.ar/ValidadorSUA1')">IOSFA CONSULTA DE AFILIADO</button>
-      <button class="btn rosado" onclick="abrirUnicaVentana('meppes', 'http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php')">MEPPES</button>
-      <button class="btn azul" onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
-      <button class="btn azuloscuro" onclick="abrirUnicaVentana('farmasun', 'https://app.drogueriafarmasun.com.ar/login')">FARMASUN</button>
-      <button class="btn chrome" onclick="abrirUnicaVentana('gmail', 'https://mail.google.com/mail/u/1/')">LEKARNA MAIL</button>
-      <button class="btn pride" onclick="abrirUnicaVentana('osde', 'https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp')">OSDE VICENTE</button>
+      <button class="btn verdeagua" onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
+      <button class="btn azuloscuro" onclick="abrirUnicaVentana('qr', 'https://tuqr.turnosdefarmacias.info/')">QR</button>
+      <button class="btn rosado" onclick="abrirUnicaVentana('recetas', 'https://recetas.turnosdefarmacias.info/')">RECETAS</button>
+      <button class="btn chrome" onclick="abrirUnicaVentana('pedidos', 'https://pedidos.turnosdefarmacias.info/')">PEDIDOS</button>
+      <button class="btn pride" onclick="abrirUnicaVentana('promociones', 'https://promociones.turnosdefarmacias.info/')">PROMOCIONES</button>
     </div>
   </div>
   <div class="sidebar">
     <input type="number" id="precio" placeholder="Ingrese el monto">
     <button class="btn azul" onclick="mostrarTicket()">IMPRIMIR</button>
   </div>
+
+  <!-- Ticket oculto hasta la impresión -->
+  <div id="ticket"></div>
+
 </body>
 </html>
+

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRUEBA - Inicio - turnosdefarmacias.info</title>
+  <title>Inicio - turnosdefarmacias.info</title>
   <style>
     body {
       margin: 0;
@@ -40,115 +40,56 @@
       color: black;
     }
     .btn:hover {
-      background-color: #ddd;
+      opacity: 0.9;
     }
-    #ticket-panel {
-      position: fixed;
-      right: 10px;
-      top: 10px;
-      width: 350px;
+    .ticket-container {
       background: white;
       padding: 20px;
-      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 300px;
       border: 2px solid black;
-    }
-    .ticket {
-      width: 80mm;
-      font-family: Arial, sans-serif;
+      margin-top: 20px;
       text-align: center;
-      border: 2px solid black;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
-    .ticket .header,
-    .ticket .footer {
-      font-size: 14px;
+    .ticket-title {
+      font-size: 24px;
       font-weight: bold;
+      margin-bottom: 10px;
     }
-    .ticket .middle {
-      font-size: 18px;
+    .ticket-total {
+      font-size: 28px;
       font-weight: bold;
-      margin: 15px 0;
+      margin-top: 20px;
+    }
+    .ticket-qr {
+      margin-top: 10px;
     }
   </style>
   <script>
-    function imprimirTicket() {
-      let precio = document.getElementById('precio').value;
-      if (precio) {
-        let ventana = window.open('', '_blank', 'width=300,height=600');
-        ventana.document.write(`
-          <html>
-          <head>
-            <title>Ticket</title>
-            <style>
-              body { font-family: Arial, sans-serif; text-align: center; }
-              .ticket {
-                width: 80mm;
-                border: 2px solid black;
-                padding: 10px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-              }
-              .header, .footer {
-                font-size: 14px;
-                font-weight: bold;
-              }
-              .middle {
-                font-size: 20px;
-                font-weight: bold;
-                margin: 20px 0;
-              }
-            </style>
-          </head>
-          <body>
-          <div class='ticket'>
-            <div class='header'>
-              FARMACIA PINTAR<br>
-              SAN MIGUEL<br>
-              AV REMIGIO LOPEZ 2393<br>
-              TEL: 44555502 - WHATSAPP: 1153183466
-            </div>
-            <div class='middle'>
-              COMPROBANTE NO FISCAL<br>
-              FECHA: ${new Date().toLocaleDateString()} - HORA: ${new Date().toLocaleTimeString()}<br>
-              <strong>PAGO SATISFACTORIO CON QR</strong><br>
-              <strong>TOTAL: $${precio}</strong>
-            </div>
-            <div class='footer'>
-              GRACIAS POR SU COMPRA
-            </div>
-          </div>
-          <script>window.print(); window.close();<\/script>
-          </body>
-          </html>
-        `);
-      } else {
-        alert('Ingrese un precio válido.');
-      }
+    function abrirUnicaVentana(nombre, url) {
+      window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
     }
   </script>
 </head>
 <body>
-  <h1>PRUEBA - FARMACIA PINTAR</h1>
+  <h1>FARMACIA PINTAR</h1>
   <div class="button-grid">
-    <a href="#" class="btn">Botón 1</a>
-    <a href="#" class="btn">Botón 2</a>
-    <a href="#" class="btn">Botón 3</a>
-    <a href="#" class="btn">Mercado Pago</a>
+    <button class="btn" onclick="abrirUnicaVentana('mercadopago', 'https://www.mercadopago.com.ar/collections')">MERCADO PAGO</button>
+    <button class="btn" onclick="abrirUnicaVentana('genericos', 'https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec')">GENÉRICOS</button>
+    <button class="btn" onclick="abrirUnicaVentana('panales', 'https://panales.turnosdefarmacias.info/')">PAÑALERA</button>
+    <button class="btn" onclick="abrirUnicaVentana('colegio', 'https://www.colfarmaonline.org.ar')">COLEGIO</button>
+    <button class="btn" onclick="abrirUnicaVentana('plataforma', 'http://ctacte.cofasa.com.ar')">PLATAFORMA</button>
+    <button class="btn" onclick="abrirUnicaVentana('iosfa_recetas', 'https://www.misvalidaciones.com.ar/')">IOSFA RECETAS</button>
+    <button class="btn" onclick="abrirUnicaVentana('iosfa_afiliado', 'https://validador.iosfa.gob.ar/ValidadorSUA1')">IOSFA CONSULTA DE AFILIADO</button>
+    <button class="btn" onclick="abrirUnicaVentana('meppes', 'http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php')">MEPPES</button>
+    <button class="btn" onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
+    <button class="btn" onclick="abrirUnicaVentana('farmasun', 'https://app.drogueriafarmasun.com.ar/login')">FARMASUN</button>
+    <button class="btn" onclick="abrirUnicaVentana('gmail', 'https://mail.google.com/mail/u/1/')">LEKARNA MAIL</button>
+    <button class="btn" onclick="abrirUnicaVentana('osde', 'https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp')">OSDE VICENTE</button>
   </div>
-  <div id="ticket-panel">
-    <h2>Generar Ticket</h2>
-    <label for="precio">Precio:</label>
-    <input type="number" id="precio" placeholder="Ingrese el precio">
-    <button onclick="imprimirTicket()">Imprimir Ticket</button>
+  <div class="ticket-container">
+    <div class="ticket-title">PAGO SATISFACTORIO</div>
+    <img class="ticket-qr" src="qr.png" alt="Código QR" width="150">
+    <div class="ticket-total">TOTAL: $0.00</div>
   </div>
 </body>
 </html>
-

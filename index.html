@@ -1,157 +1,217 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inicio - turnosdefarmacias.info</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background-color: black;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: row;
-     align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .content {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      color: white;
-      margin-bottom: 40px;
-    }
-    .button-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      max-width: 1000px;
-    }
-    .btn {
-      padding: 20px 40px;
-      font-size: 1.1em;
-      font-weight: bold;
-      border-radius: 12px;
-      cursor: pointer;
-      border: 2px solid white;
-      min-width: 220px;
-      transition: all 0.3s ease;
-      text-align: center;
-      text-decoration: none;
-    }
-    .celeste { background-color: #00cfff; color: black; }
-    .azul { background-color: #007BFF; color: white; }
-    .verde { background-color: #4CAF50; }
-    .rojo { background-color: #f44336; }
-    .verdeagua { background-color: #7FFFD4; }
-    .rosado { background-color: #FFB6C1; }
-    .azuloscuro { background-color: #102c54; color: white; }
-    .chrome { background-color: #DB4437; color: white; }
-    .pride {
-      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-      color: black;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-    }
-    .franja {
-      width: 250px;
-      background-color: #00cfff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .franja h2 {
-      color: black;
-      text-align: center;
-    }
-    .input-numero {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      text-align: center;
-      margin-top: 10px;
-    }
-    .btn-imprimir {
-      display: none;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: black;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-    }
-  </style>
-  <script>
-    function abrirUnicaVentana(nombre, url) {
-      window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
-    }
-    function validarNumero(input) {
-      const valor = input.value.replace(/[^0-9,]/g, '');
-      input.value = valor;
-      document.getElementById('btnImprimir').style.display = valor && parseFloat(valor.replace(',', '.')) >= 15 ? 'block' : 'none';
-    }
-    function imprimirTicket() {
-      const fecha = new Date().toLocaleDateString();
-      const hora = new Date().toLocaleTimeString();
-      const monto = document.getElementById('numero').value;
-      const ticketContent = `
-        <div style="width:80mm; border: 2px solid black; padding: 12px; font-family: Arial; font-size: 13px;">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRUEBAS - turnosdefarmacias.info</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        .button-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        .btn {
+            padding: 25px 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid white;
+            min-width: 250px;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .celeste {
+            background-color: #00cfff;
+            color: black;
+        }
+
+        .azul {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .verde {
+            background-color: #4CAF50;
+        }
+
+        .rojo {
+            background-color: #f44336;
+        }
+
+        .verdeagua {
+            background-color: #7FFFD4;
+        }
+
+        .rosado {
+            background-color: #FFB6C1;
+        }
+
+        .azuloscuro {
+            background-color: #102c54;
+            color: white;
+        }
+
+        .chrome {
+            background-color: #DB4437;
+            color: white;
+        }
+
+        .pride {
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            color: black;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .franja {
+            width: 250px;
+            background-color: #00cfff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .franja h2 {
+            color: black;
+            text-align: center;
+        }
+
+        .input-numero {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-imprimir {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+    <script>
+        function abrirUnicaVentana(nombre, url) {
+            window.open(url, nombre, 'width=1000,height=700,resizable=yes,scrollbars=yes');
+        }
+
+        function validarNumero(input) {
+            const valor = input.value.replace(/[^0-9,]/g, '');
+            input.value = valor;
+            document.getElementById('btnImprimir').style.display = valor && parseFloat(valor.replace(',', '.')) >= 15 ? 'block' : 'none';
+        }
+
+        function imprimirTicket() {
+            const fecha = new Date().toLocaleDateString();
+            const hora = new Date().toLocaleTimeString();
+            const monto = document.getElementById('numero').value;
+            const ticketContent = `
+         <div style="width:80mm; border: 2px solid black; padding: 12px; font-family: Arial; font-size: 13px;">
           <div style="border: 2px solid black; padding: 6px; text-align: center; margin-bottom: 10px;">
-            <b>FARMACIA PINTAR</b><br>
-            SAN MIGUEL<br>AV REMIGIO LOPEZ 2393<br>
-            TEL: 44555502 - WHATSAPP: 1153183466<br>
-            <b>COMPROBANTE NO FISCAL</b><br>
-            FECHA: ${fecha} - HORA: ${hora}<br>
-            <b>TURNOS: www.turnosdefarmacias.info</b>
-          </div>  
-          <div style="border: 2px solid black; padding: 6px; margin-bottom: 10px;">
-            <b style="font-size: 1cm;">PAGO CON QR APROBADO</b><br>
-            <b style="font-size: 1cm;">TOTAL: ${monto}</b>
-            <hr style="border-top: 1px dashed black;">
-            <b>¡GRACIAS POR SU COMPRA!</b>
+           <b>FARMACIA PINTAR</b><br>
+           SAN MIGUEL<br>AV REMIGIO LOPEZ 2393<br>
+           TEL: 44555502 - WHATSAPP: 1153183466<br>
+           <b>COMPROBANTE NO FISCAL</b><br>
+           FECHA: ${fecha} - HORA: ${hora}<br>
+           <b>TURNOS: www.turnosdefarmacias.info</b>
           </div>
-        </div>`;
-      const printWindow = window.open('', '', 'width=300,height=400');
-      printWindow.document.write(ticketContent);
-      printWindow.document.close();
-      printWindow.print();
-    }
-  </script>
+          <div style="border: 2px solid black; padding: 6px; margin-bottom: 10px;">
+           <b style="font-size: 1cm;">PAGO CON QR APROBADO</b><br>
+           <b style="font-size: 1cm;">TOTAL: ${monto}</b>
+           <hr style="border-top: 1px dashed black;">
+           <b>¡GRACIAS POR SU COMPRA!</b>
+          </div>
+         </div>`;
+            const printWindow = window.open('', '', 'width=300,height=400');
+            printWindow.document.write(ticketContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
 </head>
+
 <body>
-  <div class="content">
-    <h1>FARMACIA PINTAR</h1>
- <div class="button-grid">
-    <button class="btn celeste" onclick="abrirUnicaVentana('mercadopago', 'https://www.mercadopago.com.ar/collections')">MERCADO PAGO</button>
-    <button class="btn azul" onclick="abrirUnicaVentana('genericos', 'https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec')">GENÉRICOS</button>
-    <button class="btn azul" onclick="abrirUnicaVentana('panales', 'https://panales.turnosdefarmacias.info/')">PAÑALERA</button>
-    <button class="btn verde" onclick="abrirUnicaVentana('colegio', 'https://www.colfarmaonline.org.ar')">COLEGIO</button>
-    <button class="btn rojo" onclick="abrirUnicaVentana('plataforma', 'http://ctacte.cofasa.com.ar')">PLATAFORMA</button>
-    <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_recetas', 'https://www.misvalidaciones.com.ar/')">IOSFA RECETAS</button>
-    <button class="btn verdeagua" onclick="abrirUnicaVentana('iosfa_afiliado', 'https://validador.iosfa.gob.ar/ValidadorSUA1')">IOSFA CONSULTA DE AFILIADO</button>
-    <button class="btn rosado" onclick="abrirUnicaVentana('meppes', 'http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php')">MEPPES</button>
-    <button class="btn azul" onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
-    <button class="btn azuloscuro" onclick="abrirUnicaVentana('farmasun', 'https://app.drogueriafarmasun.com.ar/login')">FARMASUN</button>
-    <button class="btn chrome" onclick="abrirUnicaVentana('gmail', 'https://mail.google.com/mail/u/1/')">LEKARNA MAIL</button>
-    <button class="btn pride" onclick="abrirUnicaVentana('osde', 'https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp')">OSDE VICENTE</button>
-  </div>
-  </div>
-  <div class="franja">
-    <h2>REALIZAR TICKET PARA COBROS CON QR</h2>
-    <input id="numero" class="input-numero" type="text" oninput="validarNumero(this)" placeholder="Ingrese monto (min. 15)" />
-    <button id="btnImprimir" class="btn-imprimir" onclick="imprimirTicket()">IMPRIMIR TICKET</button>
-  </div>
+    <div class="content">
+        <h1>FARMACIA PINTAR</h1>
+        <div class="button-grid">
+            <button class="btn celeste"
+                onclick="abrirUnicaVentana('mercadopago', 'https://www.mercadopago.com.ar/collections')">MERCADO PAGO</button>
+            <button class="btn azul"
+                onclick="abrirUnicaVentana('genericos', 'https://script.google.com/macros/s/AKfycbxLOXkGX-UoZA38KEGFzbjOASybp_YoOxlGYhDZyZWtzNKuuVZZRDPUVzuFewaz9-mCjw/exec')">GENÉRICOS</button>
+            <button class="btn azul"
+                onclick="abrirUnicaVentana('panales', 'https://panales.turnosdefarmacias.info/')">PAÑALERA</button>
+            <button class="btn verde"
+                onclick="abrirUnicaVentana('colegio', 'https://www.colfarmaonline.org.ar')">COLEGIO</button>
+            <button class="btn rojo"
+                onclick="abrirUnicaVentana('plataforma', 'http://ctacte.cofasa.com.ar')">PLATAFORMA</button>
+            <button class="btn verdeagua"
+                onclick="abrirUnicaVentana('iosfa_recetas', 'https://www.misvalidaciones.com.ar/')">IOSFA RECETAS</button>
+            <button class="btn verdeagua"
+                onclick="abrirUnicaVentana('iosfa_afiliado', 'https://validador.iosfa.gob.ar/ValidadorSUA1')">IOSFA
+                CONSULTA DE AFILIADO</button>
+            <button class="btn rosado"
+                onclick="abrirUnicaVentana('meppes', 'http://sistemasl.ioma.gba.gov.ar/sistemas/meppes_farmacias/index.php')">MEPPES</button>
+            <button class="btn azul"
+                onclick="abrirUnicaVentana('turnos', 'https://www.turnosdefarmacias.info/')">TURNOS</button>
+            <button class="btn azuloscuro"
+                onclick="abrirUnicaVentana('farmasun', 'https://app.drogueriafarmasun.com.ar/login')">FARMASUN</button>
+            <button class="btn chrome"
+                onclick="abrirUnicaVentana('gmail', 'https://mail.google.com/mail/u/1/')">LEKARNA MAIL</button>
+            <button class="btn pride"
+                onclick="abrirUnicaVentana('osde', 'https://extranet.osde.com.ar/OSDEExtranet/jsp/multiempresas/osde/HomePublicaJuridicaV2.jsp')">OSDE
+                VICENTE</button>
+        </div>
+    </div>
+    <div class="franja">
+        <h2>REALIZAR TICKET PARA COBROS CON QR</h2>
+        <input id="numero" class="input-numero" type="text" oninput="validarNumero(this)" placeholder="Ingrese monto (min. 15)" />
+        <button id="btnImprimir" class="btn-imprimir" onclick="imprimirTicket()">IMPRIMIR TICKET</button>
+    </div>
 </body>
+
 </html>
 
 
